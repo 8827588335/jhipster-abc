@@ -1,0 +1,26 @@
+
+entity Employee {
+	firstName String
+    lastName String
+    email String
+    phoneNumber String
+}
+entity Department{
+departmentName String
+}
+
+entity Address{
+streetAddress String
+postalCode String
+city String
+}
+
+
+relationship OneToOne {
+	Department{address} to Address
+}
+
+relationship OneToMany{
+Department{employee} to Employee
+}
+
