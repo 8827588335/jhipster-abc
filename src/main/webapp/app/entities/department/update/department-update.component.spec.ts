@@ -9,8 +9,8 @@ import { of, Subject, from } from 'rxjs';
 import { DepartmentFormService } from './department-form.service';
 import { DepartmentService } from '../service/department.service';
 import { IDepartment } from '../department.model';
-import { IAddress } from 'app/entities/address/address.model';
-import { AddressService } from 'app/entities/address/service/address.service';
+import { IEmployee } from 'app/entities/employee/employee.model';
+import { EmployeeService } from 'app/entities/employee/service/employee.service';
 
 import { DepartmentUpdateComponent } from './department-update.component';
 
@@ -20,7 +20,7 @@ describe('Department Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let departmentFormService: DepartmentFormService;
   let departmentService: DepartmentService;
-  let addressService: AddressService;
+  let employeeService: EmployeeService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,43 +43,43 @@ describe('Department Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     departmentFormService = TestBed.inject(DepartmentFormService);
     departmentService = TestBed.inject(DepartmentService);
-    addressService = TestBed.inject(AddressService);
+    employeeService = TestBed.inject(EmployeeService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call Address query and add missing value', () => {
+    it('Should call Employee query and add missing value', () => {
       const department: IDepartment = { id: 456 };
-      const address: IAddress = { id: 33242 };
-      department.address = address;
+      const employee: IEmployee = { id: 39820 };
+      department.employee = employee;
 
-      const addressCollection: IAddress[] = [{ id: 12312 }];
-      jest.spyOn(addressService, 'query').mockReturnValue(of(new HttpResponse({ body: addressCollection })));
-      const additionalAddresses = [address];
-      const expectedCollection: IAddress[] = [...additionalAddresses, ...addressCollection];
-      jest.spyOn(addressService, 'addAddressToCollectionIfMissing').mockReturnValue(expectedCollection);
+      const employeeCollection: IEmployee[] = [{ id: 22996 }];
+      jest.spyOn(employeeService, 'query').mockReturnValue(of(new HttpResponse({ body: employeeCollection })));
+      const additionalEmployees = [employee];
+      const expectedCollection: IEmployee[] = [...additionalEmployees, ...employeeCollection];
+      jest.spyOn(employeeService, 'addEmployeeToCollectionIfMissing').mockReturnValue(expectedCollection);
 
       activatedRoute.data = of({ department });
       comp.ngOnInit();
 
-      expect(addressService.query).toHaveBeenCalled();
-      expect(addressService.addAddressToCollectionIfMissing).toHaveBeenCalledWith(
-        addressCollection,
-        ...additionalAddresses.map(expect.objectContaining)
+      expect(employeeService.query).toHaveBeenCalled();
+      expect(employeeService.addEmployeeToCollectionIfMissing).toHaveBeenCalledWith(
+        employeeCollection,
+        ...additionalEmployees.map(expect.objectContaining)
       );
-      expect(comp.addressesSharedCollection).toEqual(expectedCollection);
+      expect(comp.employeesSharedCollection).toEqual(expectedCollection);
     });
 
     it('Should update editForm', () => {
       const department: IDepartment = { id: 456 };
-      const address: IAddress = { id: 91745 };
-      department.address = address;
+      const employee: IEmployee = { id: 2851 };
+      department.employee = employee;
 
       activatedRoute.data = of({ department });
       comp.ngOnInit();
 
-      expect(comp.addressesSharedCollection).toContain(address);
+      expect(comp.employeesSharedCollection).toContain(employee);
       expect(comp.department).toEqual(department);
     });
   });
@@ -153,13 +153,13 @@ describe('Department Management Update Component', () => {
   });
 
   describe('Compare relationships', () => {
-    describe('compareAddress', () => {
-      it('Should forward to addressService', () => {
+    describe('compareEmployee', () => {
+      it('Should forward to employeeService', () => {
         const entity = { id: 123 };
         const entity2 = { id: 456 };
-        jest.spyOn(addressService, 'compareAddress');
-        comp.compareAddress(entity, entity2);
-        expect(addressService.compareAddress).toHaveBeenCalledWith(entity, entity2);
+        jest.spyOn(employeeService, 'compareEmployee');
+        comp.compareEmployee(entity, entity2);
+        expect(employeeService.compareEmployee).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

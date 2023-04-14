@@ -9,8 +9,6 @@ import { of, Subject, from } from 'rxjs';
 import { EmployeeFormService } from './employee-form.service';
 import { EmployeeService } from '../service/employee.service';
 import { IEmployee } from '../employee.model';
-import { IDepartment } from 'app/entities/department/department.model';
-import { DepartmentService } from 'app/entities/department/service/department.service';
 
 import { EmployeeUpdateComponent } from './employee-update.component';
 
@@ -20,7 +18,6 @@ describe('Employee Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let employeeFormService: EmployeeFormService;
   let employeeService: EmployeeService;
-  let departmentService: DepartmentService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,43 +40,17 @@ describe('Employee Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     employeeFormService = TestBed.inject(EmployeeFormService);
     employeeService = TestBed.inject(EmployeeService);
-    departmentService = TestBed.inject(DepartmentService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call Department query and add missing value', () => {
-      const employee: IEmployee = { id: 456 };
-      const department: IDepartment = { id: 35363 };
-      employee.department = department;
-
-      const departmentCollection: IDepartment[] = [{ id: 78278 }];
-      jest.spyOn(departmentService, 'query').mockReturnValue(of(new HttpResponse({ body: departmentCollection })));
-      const additionalDepartments = [department];
-      const expectedCollection: IDepartment[] = [...additionalDepartments, ...departmentCollection];
-      jest.spyOn(departmentService, 'addDepartmentToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ employee });
-      comp.ngOnInit();
-
-      expect(departmentService.query).toHaveBeenCalled();
-      expect(departmentService.addDepartmentToCollectionIfMissing).toHaveBeenCalledWith(
-        departmentCollection,
-        ...additionalDepartments.map(expect.objectContaining)
-      );
-      expect(comp.departmentsSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should update editForm', () => {
       const employee: IEmployee = { id: 456 };
-      const department: IDepartment = { id: 60127 };
-      employee.department = department;
 
       activatedRoute.data = of({ employee });
       comp.ngOnInit();
 
-      expect(comp.departmentsSharedCollection).toContain(department);
       expect(comp.employee).toEqual(employee);
     });
   });
@@ -149,18 +120,6 @@ describe('Employee Management Update Component', () => {
       expect(employeeService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('Compare relationships', () => {
-    describe('compareDepartment', () => {
-      it('Should forward to departmentService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
-        jest.spyOn(departmentService, 'compareDepartment');
-        comp.compareDepartment(entity, entity2);
-        expect(departmentService.compareDepartment).toHaveBeenCalledWith(entity, entity2);
-      });
     });
   });
 });

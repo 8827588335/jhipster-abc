@@ -19,7 +19,7 @@ type DepartmentFormDefaults = Pick<NewDepartment, 'id'>;
 type DepartmentFormGroupContent = {
   id: FormControl<IDepartment['id'] | NewDepartment['id']>;
   departmentName: FormControl<IDepartment['departmentName']>;
-  address: FormControl<IDepartment['address']>;
+  employee: FormControl<IDepartment['employee']>;
 };
 
 export type DepartmentFormGroup = FormGroup<DepartmentFormGroupContent>;
@@ -40,7 +40,7 @@ export class DepartmentFormService {
         }
       ),
       departmentName: new FormControl(departmentRawValue.departmentName),
-      address: new FormControl(departmentRawValue.address),
+      employee: new FormControl(departmentRawValue.employee),
     });
   }
 

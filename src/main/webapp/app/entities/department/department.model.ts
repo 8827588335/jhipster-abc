@@ -1,9 +1,9 @@
-import { IAddress } from 'app/entities/address/address.model';
+import { IEmployee } from 'app/entities/employee/employee.model';
 
 export interface IDepartment {
   id: number;
   departmentName?: string | null;
-  address?: Pick<IAddress, 'id'> | null;
+  employee?: Pick<IEmployee, 'id'> | null;
 }
 
 export type NewDepartment = Omit<IDepartment, 'id'> & { id: null };

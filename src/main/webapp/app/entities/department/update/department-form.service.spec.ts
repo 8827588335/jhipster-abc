@@ -21,7 +21,7 @@ describe('Department Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             departmentName: expect.any(Object),
-            address: expect.any(Object),
+            employee: expect.any(Object),
           })
         );
       });
@@ -33,7 +33,7 @@ describe('Department Form Service', () => {
           expect.objectContaining({
             id: expect.any(Object),
             departmentName: expect.any(Object),
-            address: expect.any(Object),
+            employee: expect.any(Object),
           })
         );
       });

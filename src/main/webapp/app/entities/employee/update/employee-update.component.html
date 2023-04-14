@@ -39,23 +39,6 @@
             formControlName="phoneNumber"
           />
         </div>
-
-        <div class="row mb-3">
-          <label class="form-label" jhiTranslate="abcApp.employee.department" for="field_department">Department</label>
-          <select
-            class="form-control"
-            id="field_department"
-            data-cy="department"
-            name="department"
-            formControlName="department"
-            [compareWith]="compareDepartment"
-          >
-            <option [ngValue]="null"></option>
-            <option [ngValue]="departmentOption" *ngFor="let departmentOption of departmentsSharedCollection">
-              {{ departmentOption.id }}
-            </option>
-          </select>
-        </div>
       </div>
 
       <div>

@@ -26,6 +26,12 @@
         <dd>
           <span>{{ address.city }}</span>
         </dd>
+        <dt><span jhiTranslate="abcApp.address.employee">Employee</span></dt>
+        <dd>
+          <div *ngIf="address.employee">
+            <a [routerLink]="['/employee', address.employee.id, 'view']">{{ address.employee.id }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

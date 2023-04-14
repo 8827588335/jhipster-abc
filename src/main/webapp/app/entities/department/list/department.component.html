@@ -44,9 +44,9 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="address.id">
+          <th scope="col" jhiSortBy="employee.id">
             <div class="d-flex">
-              <span jhiTranslate="abcApp.department.address">Address</span>
+              <span jhiTranslate="abcApp.department.employee">Employee</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -60,8 +60,8 @@
           </td>
           <td>{{ department.departmentName }}</td>
           <td>
-            <div *ngIf="department.address">
-              <a [routerLink]="['/address', department.address.id, 'view']">{{ department.address.id }}</a>
+            <div *ngIf="department.employee">
+              <a [routerLink]="['/employee', department.employee.id, 'view']">{{ department.employee.id }}</a>
             </div>
           </td>
           <td class="text-end">

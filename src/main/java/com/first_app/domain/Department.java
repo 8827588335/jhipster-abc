@@ -2,8 +2,6 @@ package com.first_app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -27,14 +25,10 @@ public class Department implements Serializable {
     @Column(name = "department_name")
     private String departmentName;
 
+    @JsonIgnoreProperties(value = { "addresses" }, allowSetters = true)
     @OneToOne
     @JoinColumn(unique = true)
-    private Address address;
-
-    @OneToMany(mappedBy = "department")
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "department" }, allowSetters = true)
-    private Set<Employee> employees = new HashSet<>();
+    private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -64,47 +58,16 @@ public class Department implements Serializable {
         this.departmentName = departmentName;
     }
 
-    public Address getAddress() {
-        return this.address;
+    public Employee getEmployee() {
+        return this.employee;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
 
-    public Department address(Address address) {
-        this.setAddress(address);
-        return this;
-    }
-
-    public Set<Employee> getEmployees() {
-        return this.employees;
-    }
-
-    public void setEmployees(Set<Employee> employees) {
-        if (this.employees != null) {
-            this.employees.forEach(i -> i.setDepartment(null));
-        }
-        if (employees != null) {
-            employees.forEach(i -> i.setDepartment(this));
-        }
-        this.employees = employees;
-    }
-
-    public Department employees(Set<Employee> employees) {
-        this.setEmployees(employees);
-        return this;
-    }
-
-    public Department addEmployee(Employee employee) {
-        this.employees.add(employee);
-        employee.setDepartment(this);
-        return this;
-    }
-
-    public Department removeEmployee(Employee employee) {
-        this.employees.remove(employee);
-        employee.setDepartment(null);
+    public Department employee(Employee employee) {
+        this.setEmployee(employee);
         return this;
     }
 

@@ -18,10 +18,10 @@
         <dd>
           <span>{{ department.departmentName }}</span>
         </dd>
-        <dt><span jhiTranslate="abcApp.department.address">Address</span></dt>
+        <dt><span jhiTranslate="abcApp.department.employee">Employee</span></dt>
         <dd>
-          <div *ngIf="department.address">
-            <a [routerLink]="['/address', department.address.id, 'view']">{{ department.address.id }}</a>
+          <div *ngIf="department.employee">
+            <a [routerLink]="['/employee', department.employee.id, 'view']">{{ department.employee.id }}</a>
           </div>
         </dd>
       </dl>

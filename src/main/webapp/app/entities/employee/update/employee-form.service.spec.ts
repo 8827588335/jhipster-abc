@@ -24,7 +24,6 @@ describe('Employee Form Service', () => {
             lastName: expect.any(Object),
             email: expect.any(Object),
             phoneNumber: expect.any(Object),
-            department: expect.any(Object),
           })
         );
       });
@@ -39,7 +38,6 @@ describe('Employee Form Service', () => {
             lastName: expect.any(Object),
             email: expect.any(Object),
             phoneNumber: expect.any(Object),
-            department: expect.any(Object),
           })
         );
       });

@@ -22,7 +22,7 @@
       "lastName": "Last Name",
       "email": "Email",
       "phoneNumber": "Phone Number",
-      "department": "Department"
+      "address": "Address"
     }
   }
 }
