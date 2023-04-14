@@ -1,5 +1,6 @@
 package com.first_app.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
@@ -29,6 +30,10 @@ public class Address implements Serializable {
 
     @Column(name = "city")
     private String city;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "addresses" }, allowSetters = true)
+    private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -82,6 +87,19 @@ public class Address implements Serializable {
 
     public void setCity(String city) {
         this.city = city;
+    }
+
+    public Employee getEmployee() {
+        return this.employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
+    public Address employee(Employee employee) {
+        this.setEmployee(employee);
+        return this;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

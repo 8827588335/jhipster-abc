@@ -23,6 +23,13 @@
   "name": "Address",
   "pagination": "no",
   "readOnly": false,
-  "relationships": [],
+  "relationships": [
+    {
+      "otherEntityName": "employee",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "employee",
+      "relationshipType": "many-to-one"
+    }
+  ],
   "service": "no"
 }

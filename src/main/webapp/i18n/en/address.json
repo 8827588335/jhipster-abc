@@ -20,7 +20,8 @@
       "id": "ID",
       "streetAddress": "Street Address",
       "postalCode": "Postal Code",
-      "city": "City"
+      "city": "City",
+      "employee": "Employee"
     }
   }
 }

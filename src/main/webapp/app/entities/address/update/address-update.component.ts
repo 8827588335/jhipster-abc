@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { finalize } from 'rxjs/operators';
+import { finalize, map } from 'rxjs/operators';
 
 import { AddressFormService, AddressFormGroup } from './address-form.service';
 import { IAddress } from '../address.model';
 import { AddressService } from '../service/address.service';
+import { IEmployee } from 'app/entities/employee/employee.model';
+import { EmployeeService } from 'app/entities/employee/service/employee.service';
 
 @Component({
   selector: 'jhi-address-update',
@@ -16,13 +18,18 @@ export class AddressUpdateComponent implements OnInit {
   isSaving = false;
   address: IAddress | null = null;
 
+  employeesSharedCollection: IEmployee[] = [];
+
   editForm: AddressFormGroup = this.addressFormService.createAddressFormGroup();
 
   constructor(
     protected addressService: AddressService,
     protected addressFormService: AddressFormService,
+    protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute
   ) {}
+
+  compareEmployee = (o1: IEmployee | null, o2: IEmployee | null): boolean => this.employeeService.compareEmployee(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ address }) => {
@@ -30,6 +37,8 @@ export class AddressUpdateComponent implements OnInit {
       if (address) {
         this.updateForm(address);
       }
+
+      this.loadRelationshipsOptions();
     });
   }
 
@@ -69,5 +78,20 @@ export class AddressUpdateComponent implements OnInit {
   protected updateForm(address: IAddress): void {
     this.address = address;
     this.addressFormService.resetForm(this.editForm, address);
+
+    this.employeesSharedCollection = this.employeeService.addEmployeeToCollectionIfMissing<IEmployee>(
+      this.employeesSharedCollection,
+      address.employee
+    );
+  }
+
+  protected loadRelationshipsOptions(): void {
+    this.employeeService
+      .query()
+      .pipe(map((res: HttpResponse<IEmployee[]>) => res.body ?? []))
+      .pipe(
+        map((employees: IEmployee[]) => this.employeeService.addEmployeeToCollectionIfMissing<IEmployee>(employees, this.address?.employee))
+      )
+      .subscribe((employees: IEmployee[]) => (this.employeesSharedCollection = employees));
   }
 }

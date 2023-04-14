@@ -30,12 +30,6 @@
         <dd>
           <span>{{ employee.phoneNumber }}</span>
         </dd>
-        <dt><span jhiTranslate="abcApp.employee.department">Department</span></dt>
-        <dd>
-          <div *ngIf="employee.department">
-            <a [routerLink]="['/department', employee.department.id, 'view']">{{ employee.department.id }}</a>
-          </div>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

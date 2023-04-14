@@ -22,7 +22,6 @@ type EmployeeFormGroupContent = {
   lastName: FormControl<IEmployee['lastName']>;
   email: FormControl<IEmployee['email']>;
   phoneNumber: FormControl<IEmployee['phoneNumber']>;
-  department: FormControl<IEmployee['department']>;
 };
 
 export type EmployeeFormGroup = FormGroup<EmployeeFormGroupContent>;
@@ -46,7 +45,6 @@ export class EmployeeFormService {
       lastName: new FormControl(employeeRawValue.lastName),
       email: new FormControl(employeeRawValue.email),
       phoneNumber: new FormControl(employeeRawValue.phoneNumber),
-      department: new FormControl(employeeRawValue.department),
     });
   }
 

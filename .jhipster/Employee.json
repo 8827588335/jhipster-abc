@@ -29,10 +29,10 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "department",
+      "otherEntityName": "address",
       "otherEntityRelationshipName": "employee",
-      "relationshipName": "department",
-      "relationshipType": "many-to-one"
+      "relationshipName": "address",
+      "relationshipType": "one-to-many"
     }
   ],
   "service": "no"

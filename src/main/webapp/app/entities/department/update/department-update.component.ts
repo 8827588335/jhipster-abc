@@ -7,8 +7,8 @@ import { finalize, map } from 'rxjs/operators';
 import { DepartmentFormService, DepartmentFormGroup } from './department-form.service';
 import { IDepartment } from '../department.model';
 import { DepartmentService } from '../service/department.service';
-import { IAddress } from 'app/entities/address/address.model';
-import { AddressService } from 'app/entities/address/service/address.service';
+import { IEmployee } from 'app/entities/employee/employee.model';
+import { EmployeeService } from 'app/entities/employee/service/employee.service';
 
 @Component({
   selector: 'jhi-department-update',
@@ -18,18 +18,18 @@ export class DepartmentUpdateComponent implements OnInit {
   isSaving = false;
   department: IDepartment | null = null;
 
-  addressesSharedCollection: IAddress[] = [];
+  employeesSharedCollection: IEmployee[] = [];
 
   editForm: DepartmentFormGroup = this.departmentFormService.createDepartmentFormGroup();
 
   constructor(
     protected departmentService: DepartmentService,
     protected departmentFormService: DepartmentFormService,
-    protected addressService: AddressService,
+    protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
-  compareAddress = (o1: IAddress | null, o2: IAddress | null): boolean => this.addressService.compareAddress(o1, o2);
+  compareEmployee = (o1: IEmployee | null, o2: IEmployee | null): boolean => this.employeeService.compareEmployee(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ department }) => {
@@ -79,19 +79,21 @@ export class DepartmentUpdateComponent implements OnInit {
     this.department = department;
     this.departmentFormService.resetForm(this.editForm, department);
 
-    this.addressesSharedCollection = this.addressService.addAddressToCollectionIfMissing<IAddress>(
-      this.addressesSharedCollection,
-      department.address
+    this.employeesSharedCollection = this.employeeService.addEmployeeToCollectionIfMissing<IEmployee>(
+      this.employeesSharedCollection,
+      department.employee
     );
   }
 
   protected loadRelationshipsOptions(): void {
-    this.addressService
+    this.employeeService
       .query()
-      .pipe(map((res: HttpResponse<IAddress[]>) => res.body ?? []))
+      .pipe(map((res: HttpResponse<IEmployee[]>) => res.body ?? []))
       .pipe(
-        map((addresses: IAddress[]) => this.addressService.addAddressToCollectionIfMissing<IAddress>(addresses, this.department?.address))
+        map((employees: IEmployee[]) =>
+          this.employeeService.addEmployeeToCollectionIfMissing<IEmployee>(employees, this.department?.employee)
+        )
       )
-      .subscribe((addresses: IAddress[]) => (this.addressesSharedCollection = addresses));
+      .subscribe((employees: IEmployee[]) => (this.employeesSharedCollection = employees));
   }
 }

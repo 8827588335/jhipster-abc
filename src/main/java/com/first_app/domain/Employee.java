@@ -2,6 +2,8 @@ package com.first_app.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -34,9 +36,10 @@ public class Employee implements Serializable {
     @Column(name = "phone_number")
     private String phoneNumber;
 
-    @ManyToOne
-    @JsonIgnoreProperties(value = { "address", "employees" }, allowSetters = true)
-    private Department department;
+    @OneToMany(mappedBy = "employee")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "employee" }, allowSetters = true)
+    private Set<Address> addresses = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -105,16 +108,34 @@ public class Employee implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public Department getDepartment() {
-        return this.department;
+    public Set<Address> getAddresses() {
+        return this.addresses;
     }
 
-    public void setDepartment(Department department) {
-        this.department = department;
+    public void setAddresses(Set<Address> addresses) {
+        if (this.addresses != null) {
+            this.addresses.forEach(i -> i.setEmployee(null));
+        }
+        if (addresses != null) {
+            addresses.forEach(i -> i.setEmployee(this));
+        }
+        this.addresses = addresses;
     }
 
-    public Employee department(Department department) {
-        this.setDepartment(department);
+    public Employee addresses(Set<Address> addresses) {
+        this.setAddresses(addresses);
+        return this;
+    }
+
+    public Employee addAddress(Address address) {
+        this.addresses.add(address);
+        address.setEmployee(this);
+        return this;
+    }
+
+    public Employee removeAddress(Address address) {
+        this.addresses.remove(address);
+        address.setEmployee(null);
         return this;
     }
 

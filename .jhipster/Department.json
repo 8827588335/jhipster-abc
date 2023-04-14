@@ -17,16 +17,10 @@
   "readOnly": false,
   "relationships": [
     {
-      "otherEntityName": "address",
-      "ownerSide": true,
-      "relationshipName": "address",
-      "relationshipType": "one-to-one"
-    },
-    {
       "otherEntityName": "employee",
-      "otherEntityRelationshipName": "department",
+      "ownerSide": true,
       "relationshipName": "employee",
-      "relationshipType": "one-to-many"
+      "relationshipType": "one-to-one"
     }
   ],
   "service": "no"
