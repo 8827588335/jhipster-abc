@@ -17,10 +17,10 @@ city String
 
 
 relationship OneToOne {
-	Department{address} to Address
+	Department{employee} to Employee
 }
 
 relationship OneToMany{
-Department{employee} to Employee
+Employee{address} to Address
 }
 
